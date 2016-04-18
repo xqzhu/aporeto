@@ -23,7 +23,7 @@ fi
 states=(    "Alabama"       "Alaska"        "Arizona"       "Arkansas"      "California"
             "Colorado"      "Connecticut"   "Delaware"      "Florida"       "Georgia"
             "Hawaii"        "Idaho"         "Illinois"      "Indiana"       "Iowa"
-            "Kansas"        "Kentucky"      "Louisiana"     "Marine"        "Maryland"
+            "Kansas"        "Kentucky"      "Louisiana"     "Maine"        "Maryland"
             "Massachusetts" "Michigan"      "Minnesota"     "Mississippi"   "Missouri"
             "Montana"       "Nebraska"      "Nevada"        "New Hampshire" "New Jersey"
             "New Mexico"    "New York"      "North Carolina" "North Dakota" "Ohio"
@@ -73,12 +73,7 @@ then
             index=1         # This variable exists to create a file without extra lines
             for state in "${states[@]}"
             do
-                if [[ index1 -gt 1 ]];
-                then
-                    printf "\n" >> $filename
-                fi
-                index1=$((index1 + 1))
-                printf "%s" "$state" >> $filename
+                printf "%s\n" "$state" >> $filename
             done
             exit 0
         else
@@ -111,14 +106,9 @@ then
             # "--no-prompt" exists
             printf "" > $filename1
             index1=1
-            for state in ${states[@]}
+            for state2 in ${states[@]}
             do
-                if [[ index1 -gt 1 ]];
-                then
-                    printf "\n" >> $filename1
-                fi
-                index1=$((index1 + 1))
-                printf "%s" "$state" >> $filename1
+                printf "%s\n" "$state2" >> $filename1
             done
             exit 0
         else
@@ -150,12 +140,7 @@ then
                 index3=1
                 for state3 in ${states[@]}
                 do
-                    if [[ index3 -gt 1 ]];
-                    then
-                        printf "\n" >> $filename3
-                    fi
-                    index3=$((index3 + 1))
-                    printf "%s" "$state3" >> $filename3
+                    printf "%s\n" "$state3" >> $filename3
                 done
                 exit 0
             fi
@@ -183,14 +168,9 @@ then
         echo "File created"
         printf "" > $filename4
         index4=1
-        for state in ${states[@]}
+        for state4 in ${states[@]}
         do
-            if [[ index4 -gt 1 ]];
-            then
-                printf "\n" >> $filename4
-            fi
-            index4=$((index4 + 1))
-            printf "%s" "$state4" >> $filename4
+            printf "%s\n "$state4" >> $filename4
         done
         exit 0
     fi
