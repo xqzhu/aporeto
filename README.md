@@ -1,9 +1,7 @@
 # aporeto
-1.  Bash Shell Script sample:<br />
-Completed:<br />
-All requirements.<br />
-<br />
-2.  
+- Files for internship application to apreto
+- 3 Problems
+- Details in README.md in each Folder
 
 
 
