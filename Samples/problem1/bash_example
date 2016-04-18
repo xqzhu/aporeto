@@ -1,0 +1,208 @@
+#!/bin/bash
+
+# Application for 2016 summer internship at Aporeto
+# Xueqing Zhu
+# 2016.04.15
+# Based on refering to Advanced Bash-Scripting Guide, Google and stackoverflow:)
+
+# If there are no parameters
+# Print out help menu
+SAVEIFS=$IFS
+IFS=$(echo -en "\n\b")
+
+if [ $# -eq 0 ]
+then
+    echo "Missing parameter"
+    echo "Usage:"
+    echo "$0 [--help|-h]"
+    echo "$0 --create-file=<filename> [--no-prompt] [--verbose]"
+    exit 0
+fi
+
+# List all states as an array.
+states=(    "Alabama"       "Alaska"        "Arizona"       "Arkansas"      "California"
+            "Colorado"      "Connecticut"   "Delaware"      "Florida"       "Georgia"
+            "Hawaii"        "Idaho"         "Illinois"      "Indiana"       "Iowa"
+            "Kansas"        "Kentucky"      "Louisiana"     "Marine"        "Maryland"
+            "Massachusetts" "Michigan"      "Minnesota"     "Mississippi"   "Missouri"
+            "Montana"       "Nebraska"      "Nevada"        "New Hampshire" "New Jersey"
+            "New Mexico"    "New York"      "North Carolina" "North Dakota" "Ohio"
+            "Oklahoma"      "Oregon"        "Pennsylvania"  "Rhode Island"  "South Carolina"
+            "South Dakota"  "Tennessee"     "Texas"         "Utah"          "Vermont"
+            "Virginia"      "Washington"    "West Virginia" "Wisconsin"     "Wyoming" 
+            )
+
+# If there are one parameter
+# According to definition, "--no-prompt" and "--verbose" will not appear
+# So we should ask if overwriting is needed, and not print out extra information       
+if [ $# -eq 1 ]
+then
+    if [[ "$1" = "-h" ]];
+    then
+        # Print help menu
+        echo "Usage:"
+        echo "$0 [--help|-h]"
+        echo "$0 --create-file=<filename> [--no-prompt] [--verbose]"
+        exit 0
+    else
+        patt1="--create-file=."
+        if [[ $1 =~ $patt1 ]];
+        then
+            # Get into the process for creating the file
+            filestr=$1
+            filename=${filestr:14}
+            # If file exists
+            if [ -a $filename ]
+            then
+                echo "File exists. Overwrite (y/n) ?"
+                read ow
+                # Loop until legal input is entered
+                while [[ "$ow" != "y" && "$ow" != "n" ]];
+                do
+                    echo "File exists. Overwrite (y/n) ?"
+                    read ow
+                done
+                # If choosing to not overwrite
+                if [[ "$ow" = "n" ]];
+                then
+                    exit 0;
+                fi
+            fi
+            # Create a new file
+            printf "" > $filename
+            index=1         # This variable exists to create a file without extra lines
+            for state in "${states[@]}"
+            do
+                if [[ index1 -gt 1 ]];
+                then
+                    printf "\n" >> $filename
+                fi
+                index1=$((index1 + 1))
+                printf "%s" "$state" >> $filename
+            done
+            exit 0
+        else
+            if [[ "$1" = "--help" ]];
+            then
+                # Print help Menu
+                echo "Usage:"
+                echo "$0 [--help|-h]"
+                echo "$0 --create-file=<filename> [--no-prompt] [--verbose]"
+                exit 0
+            fi
+        fi
+    fi
+fi
+
+# If there are two parameters
+# According to definition, either "--no-prompt" or "-verbose" exists
+# If "--no-prompt" exists, overwrite the file without asking
+# If "-verbose" exists, print out extra information
+if [ $# -eq 2 ]
+then
+    para2=$2
+    patt2="--create-file=."
+    if [[ $1 =~ $patt2 ]];
+    then
+        filestr1=$1
+        filename1=${filestr1:14}
+        if [[ "$para2" = "--no-prompt" ]];
+        then
+            # "--no-prompt" exists
+            printf "" > $filename1
+            index1=1
+            for state in ${states[@]}
+            do
+                if [[ index1 -gt 1 ]];
+                then
+                    printf "\n" >> $filename1
+                fi
+                index1=$((index1 + 1))
+                printf "%s" "$state" >> $filename1
+            done
+            exit 0
+        else
+            if [[ "$para2" = "--verbose" ]];
+            then
+                # "-verbose" exists
+                # Print out extra message when file exists, file removed and file created
+                filestr3=$1
+                filename3=${filestr3:14}
+                if [ -a $filename3 ]
+                then
+                    echo "File already exists"
+                    echo "File exists. Overwrite (y/n) ?"
+                    read ow3
+                    while [[ "$ow3" != "y" && "$ow3" != "n" ]];
+                    do
+                        echo "File already exists"
+                        echo "File exists. Overwrite (y/n) ?"
+                        read ow3
+                    done
+                    if [[ "$ow3" = "n" ]];
+                    then
+                        exit 0;
+                    fi
+                    echo "File removed"
+                fi
+                echo "File created"
+                printf "" > $filename3
+                index3=1
+                for state3 in ${states[@]}
+                do
+                    if [[ index3 -gt 1 ]];
+                    then
+                        printf "\n" >> $filename3
+                    fi
+                    index3=$((index3 + 1))
+                    printf "%s" "$state3" >> $filename3
+                done
+                exit 0
+            fi
+        fi
+    fi
+fi
+
+# If there are three parameters
+# Both "--no-prompt" and "-verbose" exists
+# Overwrite file, print extra information
+if [ $# -eq 3 ]
+then
+    para4=$2
+    para5=$3
+    patt4="--create-file=."
+    if [[ $1 =~ $patt4 && "$para4" = "--no-prompt" &&  "$para5" = "--verbose" ]];
+    then
+        filestr4=$1
+        filename4=${filestr4:14}
+        if [ -a $filename4 ]
+        then
+            echo "File already exists"
+            echo "File removed"
+        fi
+        echo "File created"
+        printf "" > $filename4
+        index4=1
+        for state in ${states[@]}
+        do
+            if [[ index4 -gt 1 ]];
+            then
+                printf "\n" >> $filename4
+            fi
+            index4=$((index4 + 1))
+            printf "%s" "$state4" >> $filename4
+        done
+        exit 0
+    fi
+fi
+
+# Other inputs
+# Print out help menu
+ErrorInput=1
+echo "Error input"
+echo "Usage:"
+echo "$0 [--help|-h]"
+echo "$0 --create-file=<filename> [--no-prompt] [--verbose]"
+exit $ErrorInput
+
+IFS=$SAVEIFS
