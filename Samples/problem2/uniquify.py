@@ -133,7 +133,7 @@ if len(arglist) == 3:
     firstFileName = inputFileExpression1[7:]
     secondFileName = inputFileExpression2[9:]
     
-    Merge_Sort(firstFileName, secondFileName, 0, 5, False)
+    Merge_Sort(firstFileName, secondFileName, 0, 500, False)
     
     #print firstFileName, secondFileName
     
@@ -156,7 +156,7 @@ if len(arglist) == 4 and arglist[3] == "-verbose":
     firstFileName = inputFileExpression1[7:]
     secondFileName = inputFileExpression2[9:]
     
-    Merge_Sort(firstFileName, secondFileName, 0, 5, True)
+    Merge_Sort(firstFileName, secondFileName, 0, 500, True)
     
     #print firstFileName, secondFileName
     
